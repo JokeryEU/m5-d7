@@ -9,7 +9,7 @@ import {
   getProductsByQuery,
 } from "../controllers/products.js";
 import {
-  multerValidation,
+  // multerValidation,
   validateProduct,
   validateProductSchema,
 } from "../middlewares/validation/productsValidation.js";
