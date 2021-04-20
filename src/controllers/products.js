@@ -1,12 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
-import ErrorResponse from '../utils/errorResponse.js';
+import { v4 as uuidv4 } from "uuid";
+import ErrorResponse from "../utils/errorResponse.js";
 import {
   fetchProducts,
   fetchReviews,
   writeProducts,
   writeProductsPics,
-} from '../utils/fsUtils.js';
-import { extname } from 'path';
+} from "../utils/fsUtils.js";
+import { extname } from "path";
 
 // @desc    Get all products
 // @route   GET /products
@@ -99,7 +99,7 @@ export const modifyProduct = async (req, res, next) => {
       await writeProducts(newProducts);
       res.status(200).send({ success: true, data: modifiedProduct });
     } else {
-      next(new ErrorResponse('Product not found', 404));
+      next(new ErrorResponse("Product not found", 404));
     }
   } catch (error) {
     next(error);
@@ -114,10 +114,10 @@ export const deleteProduct = async (req, res, next) => {
     const products = await fetchProducts();
     if (products.some((prod) => prod._id === req.params.id)) {
       const newProducts = products.filter((prod) => prod._id !== req.params.id);
-      res.status(200).send({ success: true, message: 'product removed' });
+      res.status(200).send({ success: true, message: "product removed" });
       await writeProducts(newProducts);
     } else {
-      next(new ErrorResponse('Product not found', 404));
+      next(new ErrorResponse("Product not found", 404));
     }
   } catch (error) {
     next(error);
@@ -130,16 +130,9 @@ export const uploadProductPic = async (req, res, next) => {
   try {
     const products = await fetchProducts();
     if (products.some((prod) => prod._id === req.params.id)) {
-      console.log(req.file);
-      const { buffer, originalname } = req.file;
-      const filename = req.params.id + extname(originalname);
-      const imgUrl = `${req.protocol}://${req.get(
-        'host'
-      )}/img/products/${filename}`;
-      //scrivo nel file url
       const newProducts = products.reduce((acc, cv) => {
         if (cv._id === req.params.id) {
-          cv.imgUrl = imgUrl;
+          cv.imgUrl = req.file.path;
           cv.updatedAt = new Date();
           acc.push(cv);
           return acc;
@@ -148,10 +141,9 @@ export const uploadProductPic = async (req, res, next) => {
         return acc;
       }, []);
       await writeProducts(newProducts);
-      await writeProductsPics(filename, buffer);
-      res.status(200).send({ success: true, imgUrl: `${imgUrl}` });
+      res.status(200).send({ success: true, cloudinaryUrl: req.file.path });
     } else {
-      next(new ErrorResponse('Product not found', 404));
+      next(new ErrorResponse("Product not found", 404));
     }
   } catch (error) {
     console.log(error);
@@ -172,12 +164,12 @@ export const getProductReviews = async (req, res, next) => {
       if (productReviews.length === 0) {
         return res.status(200).send({
           success: true,
-          message: 'no reviews available for that product',
+          message: "no reviews available for that product",
         });
       }
       res.status(200).send({ success: true, data: productReviews });
     } else {
-      next(new ErrorResponse('Product not found', 404));
+      next(new ErrorResponse("Product not found", 404));
     }
   } catch (error) {
     console.log(error);
