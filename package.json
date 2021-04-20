@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/a-pyro/strivazon-api.git"
+    "url": "git+https://github.com/JokeryEU/m5-d7-server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/a-pyro/strivazon-api/issues"
+    "url": "https://github.com/JokeryEU/m5-d7-server/issues"
   },
-  "homepage": "https://github.com/a-pyro/strivazon-api#readme",
+  "homepage": "https://github.com/JokeryEU/m5-d7-server/#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
