@@ -33,7 +33,7 @@ const corsOptions = {
     }
   },
 };
-
+app.use(cors(corsOptions));
 app.use(express.static(publicFolder));
 app.use(express.json());
 
